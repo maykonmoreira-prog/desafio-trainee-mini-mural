@@ -4,10 +4,14 @@ const bodyParser = require ("body-parser");
 const Usuarios = require("./models/Usuarios"); //importando usuarios
 const bcrypt = require ('bcrypt'); //importando encriptador
 const saltRounds = 10; // Custo do hash, 10 é o padrão seguro
+const cors = require('cors'); // Importa pacote responsável por possibilitar comunicação do front para o back end
 
 // Configurar body-parser
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+
+// Iniciar o cors
+app.use(cors());
 
 // Definição do método de cadastro com criptografia de senha
 app.post("/cadastro", function(req,res){
@@ -93,6 +97,6 @@ app.delete("/deletar/:id", function(req,res){
     })
 })
 
-app.listen(8081, function(){
+app.listen(8081, function(){ // Servidor rodando na porta 8081
     console.log("Servidor rodando...");
 });
