@@ -1,8 +1,12 @@
+import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import {Button} from "@/components/Button"; 
-import {Link} from "expo-router";
-import { View, Text, StyleSheet, Image, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { Link, router } from "expo-router";
+import { useState } from "react";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 export default function Index() {
+
+    const [username, setUsername] = useState("");
+
     return(
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>  
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" 
@@ -14,9 +18,30 @@ export default function Index() {
            <Text style={styles.subtitle}>Acesse sua conta com Usuário e Senha</Text>
 
            <View style={styles.form}>
-            <Input placeholder="Usuário" keyboardType="email-address" />
+
+            <Input
+                placeholder="Usuário"
+                value={username}
+                onChangeText={setUsername}
+            />
+
             <Input placeholder="Senha" secureTextEntry />
-            <Button label="Entrar"/>
+
+            <Button
+                label="Entrar"
+                onPress={() => {
+                    if (!username.trim()) {
+                        alert("Digite um usuário");
+                        return;
+                    }
+
+                    router.push({
+                        pathname: "/feed",
+                        params: { username }
+                    });
+                }}
+            />
+
            </View>
 
             <Text style={styles.footer}> Não tem uma conta? 
